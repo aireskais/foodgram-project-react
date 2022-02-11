@@ -1,14 +1,15 @@
 from django.db.models import Sum
 from django.http import HttpResponse
-from rest_framework import filters, status, viewsets
 
-from django_filters.rest_framework import DjangoFilterBackend
-from recipe.models import (AmountIngredientForRecipe, FavoriteRecipes,
-                           Ingredient, Recipe, ShoppingCart, Tag)
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+from django_filters.rest_framework import DjangoFilterBackend
+from recipe.models import (AmountIngredientForRecipe, FavoriteRecipes,
+                           Ingredient, Recipe, ShoppingCart, Tag)
 
 from .filters import MyRecipeFilter
 from .paginator import MyPagePagination
