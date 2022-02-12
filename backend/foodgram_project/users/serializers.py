@@ -2,9 +2,9 @@ from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from recipe.models import Recipe
 
 from .models import Follow, FoodgramUser
+from recipe.models import Recipe
 
 
 class FoodgramUserSerializer(UserSerializer):

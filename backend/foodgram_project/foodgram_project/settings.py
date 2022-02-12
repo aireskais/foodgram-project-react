@@ -1,12 +1,20 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = '82w1^naagon&@@o+b1ga1q#mlxmu1ukoouxtt%b2ph_#*+%0k^'
+SECRET_KEY = os.environ.get("SECRET_KEY", default='key')
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '51.250.17.0',
+    '127.0.0.1'
+]
 
 
 INSTALLED_APPS = [
@@ -57,22 +65,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'foodgram',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.environ.get('DB_NAME', default='postgresql'),
+        'USER': os.environ.get('POSTGRES_USER', default='postgresql'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgresql'),
+        'HOST': os.environ.get('DB_HOST', default='db'),
+        'PORT': os.environ.get('DB_PORT', default='5432')
+    }
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [

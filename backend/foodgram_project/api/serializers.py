@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from drf_extra_fields.fields import Base64ImageField
-from recipe.models import (AmountIngredientForRecipe, FavoriteRecipes,
+
+from recipe.models import (AmountIngredientForRecipe, FavoriteRecipe,
                            Ingredient, Recipe, ShoppingCart, Tag)
 from users.serializers import FoodgramUserSerializer
 
@@ -39,7 +40,7 @@ class AmountIngredientForRecipePOSTSerializer(serializers.ModelSerializer):
         fields = ('id', 'amount')
 
 
-class RecipeGETSerializer(serializers.ModelSerializer):
+class RecipeGetSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
     author = FoodgramUserSerializer(read_only=True)
     ingredients = serializers.SerializerMethodField(
@@ -62,7 +63,7 @@ class RecipeGETSerializer(serializers.ModelSerializer):
         ).data
 
     def get_is_favorited(self, recipe):
-        return FavoriteRecipes.objects.filter(
+        return FavoriteRecipe.objects.filter(
             user=self.context.get('request').user,
             recipe=recipe
         ).exists()
@@ -74,7 +75,7 @@ class RecipeGETSerializer(serializers.ModelSerializer):
         ).exists()
 
 
-class RecipePOSTSerializer(serializers.ModelSerializer):
+class RecipePostSerializer(serializers.ModelSerializer):
     author = FoodgramUserSerializer(read_only=True)
     ingredients = AmountIngredientForRecipePOSTSerializer(many=True)
     tags = serializers.PrimaryKeyRelatedField(
@@ -86,6 +87,17 @@ class RecipePOSTSerializer(serializers.ModelSerializer):
         fields = ('id', 'author', 'ingredients', 'tags',
                   'image', 'name', 'text', 'cooking_time')
 
+    @staticmethod
+    def create_ingredients_tags(recipe, ingredients, tags):
+        for ingredient in ingredients:
+            AmountIngredientForRecipe.objects.create(
+                recipe=recipe,
+                ingredient=ingredient['id'],
+                amount=ingredient['amount']
+            )
+        for tag in tags:
+            recipe.tags.add(tag)
+
     def create(self, validated_data):
         ingredients = validated_data.pop('ingredients')
         tags = validated_data.pop('tags')
@@ -93,14 +105,7 @@ class RecipePOSTSerializer(serializers.ModelSerializer):
             author=self.context.get('request').user,
             **validated_data
         )
-        for ingredient in ingredients:
-            AmountIngredientForRecipe.objects.create(
-                recipe=recipe,
-                ingredient=ingredient['id'],
-                amount=ingredient['amount']
-            )
-        for tag in tags:
-            recipe.tags.add(tag)
+        self.create_ingredients_tags(recipe, ingredients, tags)
         return recipe
 
     def update(self, recipe, validated_data):
@@ -108,18 +113,11 @@ class RecipePOSTSerializer(serializers.ModelSerializer):
         AmountIngredientForRecipe.objects.filter(recipe=recipe).delete()
         ingredients = validated_data.pop('ingredients')
         tags = validated_data.pop('tags')
-        for ingredient in ingredients:
-            AmountIngredientForRecipe.objects.create(
-                recipe=recipe,
-                ingredient=ingredient['id'],
-                amount=ingredient['amount']
-            )
-        for tag in tags:
-            recipe.tags.add(tag)
+        self.create_ingredients_tags(recipe, ingredients, tags)
         return super().update(recipe, validated_data)
 
     def to_representation(self, instance):
-        return RecipeGETSerializer(
+        return RecipeGetSerializer(
             instance,
             context={'request': self.context.get('request')}
         ).data
@@ -127,11 +125,11 @@ class RecipePOSTSerializer(serializers.ModelSerializer):
 
 class FavoriteRecipesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FavoriteRecipes
+        model = FavoriteRecipe
         fields = ('user', 'recipe')
 
     def validate(self, data):
-        if FavoriteRecipes.objects.filter(
+        if FavoriteRecipe.objects.filter(
                 user=self.context.get('request').user,
                 recipe=data['recipe']
         ).exists():

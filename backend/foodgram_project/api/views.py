@@ -8,15 +8,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django_filters.rest_framework import DjangoFilterBackend
-from recipe.models import (AmountIngredientForRecipe, FavoriteRecipes,
-                           Ingredient, Recipe, ShoppingCart, Tag)
 
 from .filters import MyRecipeFilter
-from .paginator import MyPagePagination
+from .paginator import FoodgramPagePagination
 from .permissions import OwnerOrAdminOrSafeMethods
 from .serializers import (FavoriteRecipesSerializer, IngredientSerializer,
-                          RecipeGETSerializer, RecipePOSTSerializer,
+                          RecipeGetSerializer, RecipePostSerializer,
                           ShoppingCartSerializer, TagSerializer)
+from recipe.models import (AmountIngredientForRecipe, FavoriteRecipe,
+                           Ingredient, Recipe, ShoppingCart, Tag)
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
@@ -34,14 +34,30 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all().order_by('-id')
     permission_classes = (OwnerOrAdminOrSafeMethods,)
-    pagination_class = MyPagePagination
+    pagination_class = FoodgramPagePagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = MyRecipeFilter
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            return RecipeGETSerializer
-        return RecipePOSTSerializer
+            return RecipeGetSerializer
+        return RecipePostSerializer
+
+    @staticmethod
+    def post_or_delete(request, model, serializer, pk):
+        if request.method != 'POST':
+            get_object_or_404(
+                model,
+                user=request.user,
+                recipe=get_object_or_404(Recipe, id=pk)
+            ).delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        serializer = serializer(
+            data={'user': request.user.id, 'recipe': pk},
+            context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(
         detail=True,
@@ -49,19 +65,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=(IsAuthenticated,)
     )
     def favorite(self, request, pk):
-        if request.method != 'POST':
-            get_object_or_404(
-                FavoriteRecipes,
-                user=request.user,
-                recipe=get_object_or_404(Recipe, id=pk)
-            ).delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        serializer = FavoriteRecipesSerializer(
-            data={'user': request.user.id, 'recipe': pk},
-            context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return self.post_or_delete(
+            request,
+            FavoriteRecipe,
+            FavoriteRecipesSerializer,
+            pk
+        )
 
     @action(
         detail=True,
@@ -69,19 +78,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=(IsAuthenticated,)
     )
     def shopping_cart(self, request, pk):
-        if request.method != 'POST':
-            get_object_or_404(
-                ShoppingCart,
-                user=request.user,
-                recipe=get_object_or_404(Recipe, id=pk)
-            ).delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        serializer = ShoppingCartSerializer(
-            data={'user': request.user.id, 'recipe': pk},
-            context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return self.post_or_delete(
+            request,
+            ShoppingCart,
+            ShoppingCartSerializer,
+            pk
+        )
 
     @action(
         detail=False,
@@ -89,16 +91,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=(IsAuthenticated,)
     )
     def download_shopping_cart(self, request, pk=None):
-        ingredients_dict = AmountIngredientForRecipe.objects.filter(
+        ingredients = AmountIngredientForRecipe.objects.filter(
             recipe__user_shopping_cart__user=request.user.id
         ).values(
             'ingredient__name',
             'ingredient__measurement_unit'
         ).annotate(amount=Sum('amount'))
         shopping_cart = ['Список покупок:\n--------------']
-        position = 0
-        for ingredient in ingredients_dict:
-            position += 1
+        for position, ingredient in enumerate(ingredients, start=1):
             shopping_cart.append(
                 f'\n{position}. {ingredient["ingredient__name"]}:'
                 f' {ingredient["amount"]}'

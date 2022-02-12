@@ -4,16 +4,16 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.paginator import MyPagePagination
 from djoser.views import UserViewSet
 
 from .models import Follow, FoodgramUser
 from .serializers import (FollowListSerializer, FollowSerializer,
                           FoodgramUserSerializer)
+from api.paginator import FoodgramPagePagination
 
 
 class FoodgramUserViewSet(UserViewSet):
-    pagination_class = MyPagePagination
+    pagination_class = FoodgramPagePagination
 
     @action(
         detail=False,
