@@ -1,3 +1,4 @@
+![example workflow](https://github.com/aireskais/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 # Продуктовый менеджер(описание проекта):
 Сайт(и API), на котором пользователи могут публиковать рецепты, добавлять 
 чужие рецепты в избранное и подписываться на публикации других авторов.
