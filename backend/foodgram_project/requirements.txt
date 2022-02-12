@@ -33,7 +33,7 @@ MarkupSafe==2.0.1
 oauthlib==3.2.0
 packaging==21.3
 Pillow==9.0.1
-pip-upgrade-tool==0.7.2
+pip-upgrade-tool==0.7.1
 platformdirs==2.4.1
 psycopg2-binary==2.8.6
 pycparser==2.21
