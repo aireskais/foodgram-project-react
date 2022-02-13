@@ -6,7 +6,7 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.environ.get("SECRET_KEY", default='82w1^naagon&@@o+b1ga1q#mlxmu1ukoouxtt%b2ph_#*+%0k^')
+SECRET_KEY = os.environ.get("SECRET_KEY", default='any_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,22 +77,7 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT', default='5432')
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
-#         'NAME': os.environ.get('DB_NAME', default='foodgram'),
-#         'USER': os.environ.get('POSTGRES_USER', default='foodgram'),
-#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='foodgram123!!!'),
-#         'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
-#         'PORT': os.environ.get('DB_PORT', default='5432')
-#     }
-# }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
