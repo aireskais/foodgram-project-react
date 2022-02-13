@@ -14,10 +14,11 @@ services:
     volumes:
       - static_value:/api/static/
       - media_value:/api/media/
+      - ../data/:/api/data/
     depends_on:
       - db
     env_file:
-      - ./.env
+      - .env
 
   frontend:
     image: andrisreskais/foodgram_frontend
@@ -33,8 +34,8 @@ services:
       - "9001:9001"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - ./frontend/build:/usr/share/nginx/html/
-      - ./docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
+      - ../frontend/build:/usr/share/nginx/html/
+      - ../docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
       - static_value:/var/html/static/
       - media_value:/var/html/media/
     depends_on:
