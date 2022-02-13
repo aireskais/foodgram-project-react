@@ -17,8 +17,8 @@ services:
     image: andrisreskais/foodgram
     restart: always
     volumes:
-      - static_value:/api/static/
-      - media_value:/api/media/
+      - static_value:/backend/foodgram_project/static/
+      - media_value:/backend/foodgram_project/media/
     depends_on:
       - db
     env_file:
