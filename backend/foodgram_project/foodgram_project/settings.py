@@ -69,14 +69,24 @@ WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': os.environ.get('DB_NAME', default='foodgram'),
-        'USER': os.environ.get('POSTGRES_USER', default='foodgram'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='foodgram123!!!'),
-        'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
-        'PORT': os.environ.get('DB_PORT', default='5432')
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.getenv('POSTGRES_DB', default='foodgram'),
+        'USER': os.getenv('POSTGRES_USER', default='foodgram'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='foodgram123!!!'),
+        'HOST': os.getenv('DB_HOST', default='db'),
+        'PORT': os.getenv('DB_PORT', default='5432')
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
+#         'NAME': os.environ.get('DB_NAME', default='foodgram'),
+#         'USER': os.environ.get('POSTGRES_USER', default='foodgram'),
+#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='foodgram123!!!'),
+#         'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
+#         'PORT': os.environ.get('DB_PORT', default='5432')
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
