@@ -12,9 +12,9 @@ services:
     image: andrisreskais/foodgram
     restart: always
     volumes:
-      - static_value:/api/static/
-      - media_value:/api/media/
-      - ../data/:/api/data/
+      - static_value:/app/static/
+      - media_value:/app/media/
+      - ../data/:/app/data/
     depends_on:
       - db
     env_file:
@@ -23,7 +23,7 @@ services:
   frontend:
     image: andrisreskais/foodgram_frontend
     volumes:
-      - ../frontend/:/app/result_build/
+      - ../frontend/:/app/build/
     depends_on:
       - api
 
@@ -34,7 +34,7 @@ services:
       - "9001:9001"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - ../frontend/build:/usr/share/nginx/html/
+      - ./frontend/build:/usr/share/nginx/html/
       - ../docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
       - static_value:/var/html/static/
       - media_value:/var/html/media/
