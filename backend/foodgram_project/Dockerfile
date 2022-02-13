@@ -6,6 +6,6 @@ COPY backend/foodgram_project/requirements.txt .
 
 RUN pip3 install -r ./requirements.txt --no-cache-dir
 
-COPY . .
+COPY foodgram_project/ .
 
 CMD ["gunicorn", "foodgram_project.wsgi:application", "--bind", "0:9001" ]
