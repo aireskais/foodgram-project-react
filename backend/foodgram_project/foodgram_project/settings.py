@@ -73,7 +73,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', default='foodgram'),
         'USER': os.environ.get('POSTGRES_USER', default='foodgram'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='foodgram123!!!'),
-        'HOST': os.environ.get('DB_HOST', default='db'),
+        'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
         'PORT': os.environ.get('DB_PORT', default='5432')
     }
 }
