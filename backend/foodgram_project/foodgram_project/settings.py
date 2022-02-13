@@ -6,7 +6,7 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.environ.get("SECRET_KEY", default='key')
+SECRET_KEY = os.environ.get("SECRET_KEY", default='82w1^naagon&@@o+b1ga1q#mlxmu1ukoouxtt%b2ph_#*+%0k^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -14,7 +14,8 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '51.250.17.0',
     '127.0.0.1',
-    'andrisfood.ddns.net'
+    'andrisfood.ddns.net',
+    'api'
 ]
 
 
@@ -108,8 +109,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 AUTH_USER_MODEL = 'users.FoodgramUser'
