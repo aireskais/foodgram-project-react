@@ -11,13 +11,15 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default='any_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = [
+#     '51.250.17.0',
+#     '127.0.0.1',
+#     'andrisfood.ddns.net',
+#     'api'
+# ]
 ALLOWED_HOSTS = [
-    '51.250.17.0',
-    '127.0.0.1',
-    'andrisfood.ddns.net',
-    'api'
+    '*'
 ]
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',

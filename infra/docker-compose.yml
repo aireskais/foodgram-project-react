@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:13-alpine
     volumes:
-      - /var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
 
@@ -23,7 +23,7 @@ services:
   frontend:
     image: andrisreskais/foodgram_frontend
     volumes:
-      - ./frontend/:/app/result_build/
+      - ../frontend:/app/result_build/
     depends_on:
       - api
 
