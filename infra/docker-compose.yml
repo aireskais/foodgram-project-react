@@ -17,24 +17,32 @@ services:
     image: andrisreskais/foodgram
     restart: always
     volumes:
-      - static_value:/backend/foodgram_project/static/
-      - media_value:/backend/foodgram_project/media/
+      - static_value:/code/static/
+      - media_value:/code/media/
     depends_on:
       - db
     env_file:
       - ./.env
 
+  frontend:
+    image: andrisreskais/foodgram_frontend
+    volumes:
+      - ../frontend/:/app/result_build/
+    depends_on:
+      - api
+
   nginx:
     image: nginx:1.19.3
     restart: always
     ports:
-      - "9001:9001"
+      - "80:80"
     volumes:
-      - ../static:/var/html/static/
-      - media_value:/var/html/media/
-      - ../docs/:/usr/share/nginx/html/api/docs/
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ../frontend/build:/usr/share/nginx/html/
+      - ./frontend/build:/usr/share/nginx/html/
+      - ./docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
+      - ./docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml
+      - static_value:/var/html/static_backend/
+      - media_value:/var/html/media/
     depends_on:
       - frontend
       - api
