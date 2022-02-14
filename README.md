@@ -48,10 +48,11 @@ sudo docker-compose exec api python manage.py collectstatic --no-input
 ``` 
 sudo docker-compose exec api python manage.py import_data
 ```
+
 Все, можно переходить сюда:
-
-[Продуктовый помощник](http://andrisfood.ddns.net:9900/)
-
+``` 
+http://your.hostname:port(if needs)
+``` 
 
 # Автор проекта:
 [Андрис](https://github.com/aireskais)
