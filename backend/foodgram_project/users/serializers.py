@@ -17,6 +17,8 @@ class FoodgramUserSerializer(UserSerializer):
         )
 
     def get_is_subscribed(self, following):
+        if self.context.get('request', ).user.is_anonymous:
+            return False
         return Follow.objects.filter(
             user=self.context.get('request').user,
             following=following
