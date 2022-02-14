@@ -44,7 +44,7 @@ sudo docker-compose exec api python manage.py migrate
 sudo docker-compose exec api python manage.py createsuperuser
 sudo docker-compose exec api python manage.py collectstatic --no-input
 ```
-Заполнить БД тестовыми данными(ингредиенты и теги):
+Заполнить БД тестовыми данными(ингредиенты и теги) :
 ``` 
 sudo docker-compose exec api python manage.py import_data
 ```
