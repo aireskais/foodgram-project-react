@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # import Ingredient model
-        path = 'data/ingredients.csv'
+        path = 'ingredients.csv'
         with open(path, 'r', newline='', encoding='utf-8') as data:
             result = csv.DictReader(data, delimiter=',')
             for line in result:
@@ -27,7 +27,7 @@ class Command(BaseCommand):
                         f' {error_ingredient}'
                     )
         # import Tag model
-        path = 'data/tags.csv'
+        path = 'tags.csv'
         with open(path, 'r', newline='', encoding='utf-8') as data:
             result = csv.DictReader(data, delimiter=',')
             for line in result:
