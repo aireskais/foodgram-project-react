@@ -1,41 +1,38 @@
 ![example workflow](https://github.com/aireskais/foodgram-project-react/actions/workflows/main.yml/badge.svg)
-# Продуктовый менеджер(описание проекта):
+# Продуктовый помощник(описание проекта):
 Сайт(и API), на котором пользователи могут публиковать рецепты, добавлять 
 чужие рецепты в избранное и подписываться на публикации других авторов.
 Сервис «Список покупок» позволит пользователям создавать список продуктов,
 которые нужно купить для приготовления выбранных блюд.
 
-# Как запустить проект  :
+# Как запустить проект на своем сервере:
 
-Клонировать репозиторий и перейти в него в командной строке:
+Клонировать репозиторий(а можно только 2 файла, см. ниже):
 ```
 git@github.com:aireskais/foodgram-project-react.git
 ```
-Создать и запустить виртуальное окружение:
+Залить на свой сервер файлы docker-compose.yml и nginx.conf, прямо в корень:
 ```
-python -m venv venv
-python -m pip install --upgrade pip --user
-pip install Django==4.0.2
-source venv/Scripts/activate
+scp my_file username@host:<путь-на-сервере>
 ```
-Установить зависимости
+Запустить билд:
 ```
-pip install -r requirements.txt
+sudo docker-compose up -d
 ```
-Создать и запустить миграции, создать суперпользователя
+Запустить миграции, создать суперпользователя, собрать статику: 
 ```
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser 
+sudo docker-compose exec api python manage.py migrate
+sudo docker-compose exec api python manage.py createsuperuser
+sudo docker-compose exec api python manage.py collectstatic --no-input
 ```
 Заполнить БД тестовыми данными(ингредиенты и теги):
+``` 
+sudo docker-compose exec api python manage.py import_data
 ```
-python manage.py import_data
-```
-Запустить
-```
-python manage.py runserver
-```
+Все, можно переходить сюда:
+
+[Продуктовый помощник](http://andrisfood.ddns.net:9900/)
+
 
 # Автор проекта:
 [Андрис](https://github.com/aireskais)
