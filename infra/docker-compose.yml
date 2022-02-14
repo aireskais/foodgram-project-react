@@ -20,7 +20,7 @@ services:
     restart: always
     volumes:
       - static_value:/app/staticfiles/
-      - media_value:/app/staticfiles/
+      - media_value:/app/media/
       - ../data/:/app/data/
     depends_on:
       - db
