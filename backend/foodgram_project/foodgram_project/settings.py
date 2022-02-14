@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY", default='any_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '51.250.17.0',
@@ -66,22 +66,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
-#         'NAME': os.getenv('POSTGRES_DB', default='foodgram'),
-#         'USER': os.getenv('POSTGRES_USER', default='foodgram'),
-#         'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='foodgram123!!!'),
-#         'HOST': os.getenv('DB_HOST', default='db'),
-#         'PORT': os.getenv('DB_PORT', default='5432')
-#     }
-# }
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+        'NAME': os.getenv('POSTGRES_DB', default='foodgram'),
+        'USER': os.getenv('POSTGRES_USER', default='foodgram'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='foodgram123!!!'),
+        'HOST': os.getenv('DB_HOST', default='db'),
+        'PORT': os.getenv('DB_PORT', default='5432')
     }
+}
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
