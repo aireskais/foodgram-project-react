@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
         'NAME': os.getenv('POSTGRES_DB', default='foodgram'),
         'USER': os.getenv('POSTGRES_USER', default='foodgram'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='foodgram123!!!'),
@@ -108,8 +108,8 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_URL = '/staticfiles/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -122,7 +122,7 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'api.utils.custom_exception_handler',
 
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.AllowAny',
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -132,6 +132,10 @@ REST_FRAMEWORK = {
 
 
 DJOSER = {
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
+        'user': ['rest_framework.permissions.AllowAny'],
+    },
     'SERIALIZERS': {
         'user': 'users.serializers.FoodgramUserSerializer',
         'current_user': 'users.serializers.FoodgramUserSerializer',
