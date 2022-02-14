@@ -11,10 +11,29 @@
 ```
 git@github.com:aireskais/foodgram-project-react.git
 ```
-Залить на свой сервер файлы docker-compose.yml и nginx.conf, прямо в корень:
+Залить на свой сервер файлы docker-compose.yml и nginx.conf(редачим под свой сервер), прямо в корень:
 ```
 scp my_file username@host:<путь-на-сервере>
 ```
+
+Прописываем секреты:
+```
+DOCKER_USERNAME=<логин для докера>
+DOCKER_PASSWORD=<пароль>
+HOST=<IP сервера>
+USER=<пользователь на сервере>
+SSH_KEY=<приватный ключ от компьтера, у которого есть доступ на сервер>
+PASSPHRASE=<защитный пароль для ssh ключа, если есть>
+TELEGRAM_TO=<Id бота в телегра, для отправки уведомления об успешном деплое>
+TELEGRAM_TOKEN=<токен для бота>
+DB_ENGINE=<django.db.backends.postgresql или любой другой>
+DB_NAME=<postgres или любой другой>
+POSTGRES_USER=<ваш пользователь>
+POSTGRES_PASSWORD=<пароль для вашего пользователя>
+DB_HOST=db
+DB_PORT=5432
+```
+
 Запустить билд:
 ```
 sudo docker-compose up -d
