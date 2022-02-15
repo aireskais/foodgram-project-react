@@ -3,11 +3,10 @@ from imghdr import what
 from uuid import uuid4
 
 from django.core.files.base import ContentFile
-from django.http import HttpResponse
 from rest_framework.serializers import ImageField
 from six import string_types
 
-WRONG_IMAGE_TYPE = "Изображение не соответствует"
+WRONG_IMAGE_TYPE = "Кривой формат файла картинки"
 BASE64 = ";base64,"
 
 
@@ -29,24 +28,3 @@ class Base64ImageField(ImageField):
     def get_file_extension(self, file_name, decoded_file):
         extension = what(file_name, decoded_file)
         return "jpg" if extension == "jpeg" else extension
-
-
-def get_content(ingredients, name_field, measure_field, amount_field):
-    products = {}
-    for ingredient in ingredients:
-        name, measurement, amount = (
-            ingredient[name_field],
-            ingredient[measure_field],
-            ingredient[amount_field],
-        )
-        product = name + f" ({measurement}) — "
-        if product in products:
-            products[product] += amount
-        else:
-            products[product] = amount
-    content = ""
-    for product in products:
-        content += product + str(products[product]) + "\n"
-    response = HttpResponse(content, content_type="text/plain")
-    response["Content-Disposition"] = "attachment; filename=to_buy.txt"
-    return response
