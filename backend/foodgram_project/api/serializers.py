@@ -89,7 +89,7 @@ class RecipePostSerializer(serializers.ModelSerializer):
     ingredients = AmountIngredientForRecipePostSerializer(many=True)
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True)
-    image = Base64ImageField(use_url=True)
+    image = Base64ImageField(use_url=True, represent_in_base64=True)
 
     class Meta:
         model = Recipe
@@ -136,10 +136,11 @@ class RecipePostSerializer(serializers.ModelSerializer):
                 })
             ingredients_list.append(ingredient_id)
 
-    def to_representation(self, obj):
-        data = super().to_representation(obj)
-        data["image"] = obj.image.url
-        return data
+    def to_representation(self, instance):
+        return RecipeGetSerializer(
+            instance,
+            context={'request': self.context.get('request')}
+        ).data
 
 
 class FavoriteRecipesSerializer(serializers.ModelSerializer):
