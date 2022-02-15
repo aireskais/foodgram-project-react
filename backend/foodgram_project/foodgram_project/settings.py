@@ -104,16 +104,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'core/locale'),
+]
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+DOCS_DIR = os.path.join(BASE_DIR, 'api/docs/')
+
+STATIC_URL = '/staticfiles/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'core/static/'),
+    os.path.join(BASE_DIR, 'api/docs/'),
+)
 
 MEDIA_URL = '/mediafiles/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles/')
 
-
 AUTH_USER_MODEL = 'users.FoodgramUser'
-
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'api.utils.custom_exception_handler',
