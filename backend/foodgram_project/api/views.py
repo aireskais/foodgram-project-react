@@ -7,7 +7,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .filters import MyRecipeFilter
+from .filters import RecipeFilter, IngredientFilter
 from .paginator import FoodgramPagePagination
 from .permissions import OwnerOrAdminOrSafeMethods
 from .serializers import (FavoriteRecipesSerializer, IngredientSerializer,
@@ -20,7 +20,7 @@ from recipe.models import (AmountIngredientForRecipe, FavoriteRecipe,
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all().order_by('name')
     serializer_class = IngredientSerializer
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (IngredientFilter,)
     search_fields = ('^name',)
 
 
@@ -34,7 +34,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = (OwnerOrAdminOrSafeMethods,)
     pagination_class = FoodgramPagePagination
     filter_backends = (DjangoFilterBackend,)
-    filter_class = MyRecipeFilter
+    filter_class = RecipeFilter
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

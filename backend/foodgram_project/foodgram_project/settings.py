@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY", default='any_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '51.250.17.0',
@@ -66,16 +66,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+#         'NAME': os.getenv('POSTGRES_DB', default='foodgram'),
+#         'USER': os.getenv('POSTGRES_USER', default='foodgram'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='foodgram123!!!'),
+#         'HOST': os.getenv('DB_HOST', default='db'),
+#         'PORT': os.getenv('DB_PORT', default='5432')
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
-        'NAME': os.getenv('POSTGRES_DB', default='foodgram'),
-        'USER': os.getenv('POSTGRES_USER', default='foodgram'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='foodgram123!!!'),
-        'HOST': os.getenv('DB_HOST', default='db'),
-        'PORT': os.getenv('DB_PORT', default='5432')
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -108,8 +114,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/mediafiles/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 
 AUTH_USER_MODEL = 'users.FoodgramUser'
@@ -125,6 +131,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
 }
 
 
