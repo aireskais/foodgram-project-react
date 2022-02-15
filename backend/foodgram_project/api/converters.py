@@ -1,10 +1,11 @@
 from base64 import b64decode
+from imghdr import what
+from uuid import uuid4
+
 from django.core.files.base import ContentFile
 from django.http import HttpResponse
-from imghdr import what
 from rest_framework.serializers import ImageField
 from six import string_types
-from uuid import uuid4
 
 WRONG_IMAGE_TYPE = "Изображение не соответствует"
 BASE64 = ";base64,"
