@@ -1,6 +1,6 @@
-from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
+from .converters import Base64ImageField
 from recipe.models import (AmountIngredientForRecipe, FavoriteRecipe,
                            Ingredient, Recipe, ShoppingCart, Tag)
 from users.serializers import FoodgramUserSerializer
@@ -83,13 +83,18 @@ class RecipeGetSerializer(serializers.ModelSerializer):
             recipe=recipe
         ).exists()
 
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        data["image"] = obj.image.url
+        return data
+
 
 class RecipePostSerializer(serializers.ModelSerializer):
     author = FoodgramUserSerializer(read_only=True)
     ingredients = AmountIngredientForRecipePostSerializer(many=True)
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True)
-    image = Base64ImageField(use_url=True, represent_in_base64=True)
+    image = Base64ImageField()
 
     class Meta:
         model = Recipe
@@ -137,11 +142,10 @@ class RecipePostSerializer(serializers.ModelSerializer):
             ingredients_list.append(ingredient_id)
         return data
 
-    def to_representation(self, instance):
-        return RecipeGetSerializer(
-            instance,
-            context={'request': self.context.get('request')}
-        ).data
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        data["image"] = obj.image.url
+        return data
 
 
 class FavoriteRecipesSerializer(serializers.ModelSerializer):
