@@ -145,13 +145,13 @@ class FavoriteRecipe(models.Model):
     user = models.ForeignKey(
         FoodgramUser,
         on_delete=models.CASCADE,
-        related_name='favorite_user',
+        related_name='favorited',
         verbose_name='Пользователь'
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='favorite_pecipe',
+        related_name='favorited',
         verbose_name='Рецепт'
     )
 
