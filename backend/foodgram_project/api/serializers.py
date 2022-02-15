@@ -136,11 +136,10 @@ class RecipePostSerializer(serializers.ModelSerializer):
                 })
             ingredients_list.append(ingredient_id)
 
-    def to_representation(self, instance):
-        return RecipeGetSerializer(
-            instance,
-            context={'request': self.context.get('request')}
-        ).data
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        data["image"] = obj.image.url
+        return data
 
 
 class FavoriteRecipesSerializer(serializers.ModelSerializer):
