@@ -125,16 +125,17 @@ class RecipePostSerializer(serializers.ModelSerializer):
         self.create_ingredients_tags(recipe, ingredients, tags)
         return super().update(recipe, validated_data)
 
-    # def validate(self, data):
-    #     ingredients = self.initial_data.get('ingredients')
-    #     ingredients_list = []
-    #     for ingredient in ingredients:
-    #         ingredient_id = ingredient['id']
-    #         if ingredient_id in ingredients_list:
-    #             raise serializers.ValidationError({
-    #                 'ingredient': 'Повторяются ингредиенты!'
-    #             })
-    #         ingredients_list.append(ingredient_id)
+    def validate(self, data):
+        ingredients = self.initial_data.get('ingredients')
+        ingredients_list = []
+        for ingredient in ingredients:
+            ingredient_id = ingredient['id']
+            if ingredient_id in ingredients_list:
+                raise serializers.ValidationError({
+                    'ingredient': 'Повторяются ингредиенты!'
+                })
+            ingredients_list.append(ingredient_id)
+        return data
 
     def to_representation(self, instance):
         return RecipeGetSerializer(
