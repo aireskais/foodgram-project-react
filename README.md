@@ -1,6 +1,6 @@
 ![example workflow](https://github.com/aireskais/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 # Продуктовый помощник
-([ссылка на запущенный проект](http://andrisfood.ddns.net:9900/)):
+([ссылка на запущенный проект](http://andrisfood.ddns.net:9900/))
 ### Описание:
 Сайт(и API), на котором пользователи могут публиковать рецепты, добавлять 
 чужие рецепты в избранное и подписываться на публикации других авторов.
