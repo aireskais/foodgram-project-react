@@ -1,13 +1,19 @@
 ![example workflow](https://github.com/aireskais/foodgram-project-react/actions/workflows/main.yml/badge.svg)
-# Продуктовый помощник([ссылка на запущенный проект](http://andrisfood.ddns.net:9900/)):
+# Продуктовый помощник
+([ссылка на запущенный проект](http://andrisfood.ddns.net:9900/)):
+### Описание:
 Сайт(и API), на котором пользователи могут публиковать рецепты, добавлять 
 чужие рецепты в избранное и подписываться на публикации других авторов.
 Сервис «Список покупок» позволит пользователям создавать список продуктов,
 которые нужно купить для приготовления выбранных блюд.
 
-# Как запустить проект на своем сервере:
+### Стек технологий: 
+Python 3, Django REST Framework, PostgreSQL, Gunicorn, Nginx, Яндекс.Облако(Ubuntu 20.04), GitHub Actions, Docker
+Проект запущен на сервере в Яндекс.Облаке в трех контейнерах: nginx, PostgreSQL и Django+Gunicorn
 
-Клонировать репозиторий(а можно только 2 файла, см. ниже):
+### Как запустить проект на своем сервере:
+
+Клонировать репозиторий(а можно только docker-compose.yml и nginx.conf, см. ниже):
 ```
 git@github.com:aireskais/foodgram-project-react.git
 ```
@@ -54,5 +60,5 @@ sudo docker-compose exec api python manage.py import_data
 http://your.hostname:port(if needs)
 ``` 
 
-# Автор проекта:
+### Автор проекта:
 [Андрис](https://github.com/aireskais)
